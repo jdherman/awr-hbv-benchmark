@@ -44,7 +44,7 @@ public class ExampleJobFactory extends CommandLineUtility {
 				"40", "41", "42", "43", "44", "45", "46", "47", "48", "49",};
 		
 		String[] algorithms = new String[] { "NSGAII", "eMOEA", "eNSGAII", 
-				"Borg", "OMOPSO", "IBEA", "GDE3", "MOEAD", "SPEA2" };
+				"OMOPSO", "IBEA", "GDE3", "MOEAD", "SPEA2" };
 		//TODO: add AMALGAM and HypE when supported
 		
 		String[] problems = new String[] { "HBV" };

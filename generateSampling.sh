@@ -10,4 +10,3 @@ java $JAVA_HEAP -classpath $CLASSPATH org.moeaframework.analysis.sensitivity.Sam
 java $JAVA_HEAP -classpath $CLASSPATH org.moeaframework.analysis.sensitivity.SampleGenerator -m latin -n $MOEAFRAMEWORK_SAMPLES -p params/GDE3_Params -o params/GDE3_LHS -s $MOEAFRAMEWORK_SEED
 java $JAVA_HEAP -classpath $CLASSPATH org.moeaframework.analysis.sensitivity.SampleGenerator -m latin -n $MOEAFRAMEWORK_SAMPLES -p params/eNSGAII_Params -o params/eNSGAII_LHS -s $MOEAFRAMEWORK_SEED
 java $JAVA_HEAP -classpath $CLASSPATH org.moeaframework.analysis.sensitivity.SampleGenerator -m latin -n $MOEAFRAMEWORK_SAMPLES -p params/eMOEA_Params -o params/eMOEA_LHS -s $MOEAFRAMEWORK_SEED
-java $JAVA_HEAP -classpath $CLASSPATH org.moeaframework.analysis.sensitivity.SampleGenerator -m latin -n $MOEAFRAMEWORK_SAMPLES -p params/Borg_Params -o params/Borg_LHS -s $MOEAFRAMEWORK_SEED

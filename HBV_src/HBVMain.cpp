@@ -11,6 +11,8 @@
              V 0.2           Stuttgart  09.01.1999
              Translated to C/C++ by Joshua B. Kollat
              V 0.3           Penn State University 12.2010
+			 Modified for use with MOEAFramework for multiobjective optimization, Jon Herman
+			 V 0.31			 Penn State University 2012
 *****************************************************************************/
 
 
@@ -53,11 +55,6 @@ struct Individual {
 Individual ind;
 Individual* indPtr = &ind;
 
-//Seed the random number generators
-//NRRand uRand(125698); //uniform random number generator
-//NRNormal nRand(0.0, 1.0, 652375); //normal random number generator
-
-
 HBV hbv;
 HBV *hbvPtr = &hbv;
 
@@ -65,17 +62,6 @@ Objectives objs;
 Objectives *objsPtr = &objs;
 
 int oldSnow = 0;
-
-//These were settings for 7 year calibration period
-/*
-int dateStart[3] = {1961, 10, 1};
-int dateEnd[3]   = {1969, 9, 30};
-int dayStartIndex = 274; //10-1 is day 274 of the year
-//Note: For the calibration period specification, you should include the warmup period here
-//The objective values get calculated on the time series values following the first year of simulation
-int nDays = 2922; //8 years total - 1 year of warmup, 7 years of calibration, and 2 leap years.
-int startingIndex = 5023-1; //The starting index of the data array corresponding with the start date
-*/
 
 //These are settings for a 10 year calibration period
 int dateStart[3] = {1961, 10, 1};
@@ -93,10 +79,6 @@ int lolo = 0; //This is some sort of flag that was never defined in the Fortran 
 
 void init_HBV(int argc, char **argv)
 {
-  //FILE *fp = fopen("initting.out", "w");
-	//fprintf(fp, "STARTING INIT...\n"); //output objectives to text file
-	//fclose(fp);
-	
     //Set up simulation period
     PeriodLength = nDays;
     //PeriodLength = DayLast - DayFirst + 1;
@@ -167,9 +149,7 @@ void calc_HBV(Individual *ind)
     hbvPtr->config.ck0[0]     = 1.0 / xreal[1] * hbvPtr->config.tst / (3600.0 * 24.0); //1/[d]*[d] = [-]
     hbvPtr->config.ck1[0]     = 1.0 / xreal[2] * hbvPtr->config.tst / (3600.0 * 24.0); //1/[d]*[d] = [-]
     hbvPtr->config.ck2[0]     = 1.0 / xreal[3] * hbvPtr->config.tst / (3600.0 * 24.0); //1/[d]*[d] = [-]
-    //hbvPtr->config.cper[0]    = 1.0 / xreal[4] * hbvPtr->config.tst / (3600.0 * 24.0); //1/[d]*[d] = [-]
     hbvPtr->config.perc[0]    = xreal[4]; //[mm/d] Now percolation is in units of mm.d instead of being specified as a percolation coefficient
-    //hbvPtr->config.pwp[0][0]  = xreal[5]; //[mm]
     hbvPtr->config.lp[0][0]   = xreal[5]; //[-]
     hbvPtr->config.fcap[0][0] = xreal[6]; //[mm]
     hbvPtr->config.beta[0][0] = xreal[7]; //[-]
@@ -178,10 +158,9 @@ void calc_HBV(Individual *ind)
     hbvPtr->config.degd[0][0] = xreal[10] * hbvPtr->config.tst / (3600.0 * 24.0); //[mm/(degC-d)]
     
     //The remaining parameters depend on whether we are running the old snow model or the new one
-    if (oldSnow) hbvPtr->config.degw[0][0] = xreal[11]; //[??]
+    if (oldSnow) hbvPtr->config.degw[0][0] = xreal[11];
     else
     {
-        //hbvPtr->config.sfcf[0][0]  = xreal[11];
         hbvPtr->config.sfcf[0][0] = 1.0; //Assuming no snowfall correction
         hbvPtr->config.cfr[0][0]   = xreal[11];
         hbvPtr->config.cwh[0][0]   = xreal[12];
@@ -207,17 +186,12 @@ void calc_HBV(Individual *ind)
 
 void finalize_HBV()
 {
-
     return;
 }
 
 //Main function for when we are just running HBV by itself using a different sampling technique
 int main(int argc, char **argv)
 {
-
-	//JDH: THIS VERSION OF HBV IS FOR DAVE'S JAVA MOEA FRAMEWORK
-	//FILE *fp = fopen("stuff.out", "w");
-	//fprintf(fp, "STARTING MAIN\n"); //output objectives to text file
 
 	int response; 
 
@@ -229,34 +203,14 @@ int main(int argc, char **argv)
     //Initialize HBV
     init_HBV(argc, argv);
 
-	//initialization
-	//fprintf(fp, "Before the while loop...\n"); //output objectives to text file
-
-	//char mystring [1000];
-
-	//ofstream teststream;
-	//teststream.open("tester.txt");
-	           
-	//int i=0;
-	while (1) //loop to wait for STDIN from java side
+	while (1) //loop to wait for MOEAFramework to send variables over stdin
 	{
-		//if(i % 100 == 0)
-		//{
-			//fprintf(fp, "Evaluation: %d\n", i); //output objectives to text file
-			//fflush(fp);
-		//}
-		//fgets (mystring, 1000, stdin);
-		//fprintf(fp, "%s", mystring);
-		//fflush(fp);
-
+		// Read values from stdin
 		response = fscanf(stdin,"%lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf", 
 			&indPtr->xreal[0], &indPtr->xreal[1], &indPtr->xreal[2], &indPtr->xreal[3], 
 			&indPtr->xreal[4], &indPtr->xreal[5], &indPtr->xreal[6], &indPtr->xreal[7], 
 			&indPtr->xreal[8], &indPtr->xreal[9], &indPtr->xreal[10], &indPtr->xreal[11], 
 			&indPtr->xreal[12], &indPtr->xreal[13]);
-		
-		//for (int j = 0; j < nParams; j++) {teststream << indPtr->xreal[j] << "  ";}
-		//teststream << endl;
 
 		if ((response == EOF) && (ferror(stdin) == 0)) 
 		{
@@ -279,16 +233,12 @@ int main(int argc, char **argv)
 		{
 			//Correct number of inputs; evaluate and output objectives back to java 
 
-			//RUN THE MODEL
+			//Run the model
 			calc_HBV(indPtr);
-			//for (int j = 0; j < nObj; j++) {teststream << indPtr->obj[j] << " ";}
-			//teststream << endl;
 			
 			fprintf(stdout, "%e %e %e %e\n", indPtr->obj[0], indPtr->obj[1], indPtr->obj[2], indPtr->obj[3]); //output back to java via STDOUT
 			fflush(stdout);
-			
 		}	
-		//i++;
 	}
 
     return 0;

@@ -1,0 +1,4 @@
+populationSize 10 1000
+archiveSize 10 1000
+maxEvaluations 10000 200000
+perturbationIndex 0.0 1.0

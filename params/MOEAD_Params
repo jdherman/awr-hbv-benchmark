@@ -1,0 +1,9 @@
+populationSize 10 1000
+maxEvaluations 10000 200000
+neighborhoodSize 0.0 0.2
+delta 0.0 1.0
+eta 0.0 0.02
+de.crossoverRate 0.0 1.0
+de.stepSize 0.0 1.0
+pm.rate 0.0 1.0
+pm.distributionIndex 0.0 500.0

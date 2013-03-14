@@ -4,6 +4,7 @@ Multiobjective Optimization Benchmark
 --------------------------
 Copyright (C) 2012 Patrick Reed
 For use with [MOEAFramework](http://www.moeaframework.org)
+Licensed under the GNU Lesser General Public License
 
 Citation:
 P.M. Reed, D. Hadka, J.D. Herman, J.R. Kasprzyk, J.B. Kollat, Evolutionary multiobjective optimization in water resources: The past, present, and future, Advances in Water Resources, Volume 51, January 2013, Pages 438-456, ISSN 0309-1708, 10.1016/j.advwatres.2012.01.005.
@@ -57,14 +58,14 @@ You can perform a regular (non-PBS) run like this:
 	-x epsilon=0.01,0.025,0.01,0.01
 
 This program is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
+it under the terms of the GNU Lesser General Public License as published by
 the Free Software Foundation, either version 3 of the License, or
 (at your option) any later version.
 
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
+GNU Lesser General Public License for more details.
 
-You should have received a copy of the GNU General Public License
+You should have received a copy of the GNU Lesser General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.

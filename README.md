@@ -23,27 +23,27 @@ Contents:
 * generateSampling.sh: Create the Latin Hypercube samples of algorithm parameters
 * HBV_Reference.txt: The benchmark reference set from this study
 
-To run: 
+To compile and run:
 
-0. Make sure you have [MOEAFramework](http://www.moeaframework.org). Download the "all-in-one executable" and put the .jar file in the main directory of this project.
+* Make sure you have [MOEAFramework](http://www.moeaframework.org). Download the "all-in-one executable" and put the .jar file in the main directory of this project.
 
-1. Compile the HBV Model: `cd HBV_src && make`
+* Compile the HBV Model: `cd HBV_src && make`
 
-2. Move the executable and data file into the main directory: `mv hbv WIL.in ..`
+* Move the executable and data file into the main directory: `mv hbv WIL.in ..`
 	
-3. Compile the Java files (repeat for all Java files) (Before you compile `ExampleJobFactory.java`, you may want to read through the file and see if you want to modify any parts of the setup.)
+* Compile the Java files (repeat for all Java files) (Before you compile `ExampleJobFactory.java`, you may want to read through the file and see if you want to modify any parts of the setup.)
 
-`javac -classpath MOEAFramework-<VERSION>-Executable.jar:. HBVProblem.java`
+	`javac -classpath MOEAFramework-<VERSION>-Executable.jar:. HBVProblem.java`
 
-4. Generate MOEA parameters: `./generateSampling.sh`
+* Generate MOEA parameters: `./generateSampling.sh`
 
-5. Run `ExampleJobFactory` to submit jobs to a PBS queue. If you read the file ExampleJobFactory.java, you will see which algorithms and random seeds will be submitted by default. Change these as needed.
+* Run `ExampleJobFactory` to submit jobs to a PBS queue. If you read the file ExampleJobFactory.java, you will see which algorithms and random seeds will be submitted by default. Change these as needed.
 
-`java -classpath MOEAFramework-<VERSION>-Executable.jar:. ExampleJobFactory -seed 0`
+	`java -classpath MOEAFramework-<VERSION>-Executable.jar:. ExampleJobFactory -seed 0`
 
-The `-seed` argument is optional. If omitted, 50 seeds will be run.
+	The `-seed` argument is optional. If omitted, 50 seeds will be run.
 
-You can perform a regular (non-PBS) run like this:
+* You can perform a regular (non-PBS) run like this:
 ```
 java -classpath MOEAFramework-<VERSION>-Executable.jar:. \
 org.moeaframework.analysis.sensitivity.Evaluator \

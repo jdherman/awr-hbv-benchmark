@@ -31,10 +31,9 @@ To run:
 
 2. Move the executable and data file into the main directory: `mv hbv WIL.in ..`
 	
-3. Compile the Java files (repeat for all Java files)
-`javac -classpath MOEAFramework-<VERSION>-Executable.jar:. HBVProblem.java`
+3. Compile the Java files (repeat for all Java files) (Before you compile `ExampleJobFactory.java`, you may want to read through the file and see if you want to modify any parts of the setup.)
 
-Before you compile ExampleJobFactory.java, you may want to read through the file and see if you want to modify any parts of the setup.
+`javac -classpath MOEAFramework-<VERSION>-Executable.jar:. HBVProblem.java`
 
 4. Generate MOEA parameters: `./generateSampling.sh`
 

@@ -20,10 +20,8 @@ SHR_DIR = .
 #**************************************************************
 
 #Serial compilation (running on compute nodes)
-#CC_SERIAL = g++
-#When profiling on PCs...
-#CC_SERIAL = C:/MinGW/bin/g++.exe
-CC_SERIAL = icpc
+#CC_SERIAL = icpc
+CC_SERIAL = g++
 
 #**************************************************************
 #Compiler flags

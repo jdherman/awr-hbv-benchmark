@@ -1,6 +1,7 @@
 #ifdef HBVMOD
 
 #include "HBV.h"
+#include <math.h>
 
 extern HBV hbv;
 extern HBV* hbvPtr;

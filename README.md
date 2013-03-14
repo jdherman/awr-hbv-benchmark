@@ -31,8 +31,8 @@ To run:
 1. Compile the HBV Model
 	cd HBV_src && make
 
-2. Move the executable into the main directory
-	mv hbv ..
+2. Move the executable and data file into the main directory
+	mv hbv WIL.in ..
 	
 3. Compile the Java files (repeat for all Java files)
 	javac -classpath MOEAFramework-<VERSION>-Executable.jar:. HBVProblem.java

@@ -14,7 +14,7 @@ The HBV model is a lumped conceptual rainfall–runoff model with three primary ro
 * A response routine, in which the linear outflow from two sub-basins is transformed by a routing parameter. 
 In sum, the model contains 14 real-valued decision variables that require calibration.
 
-The MOEAs in this study were used to calibrate the HBV model for the Williams River, West Virginia, United States (USGS Gage 03186500). Calibration was performed using precipitation and streamflow data from the MOPEX dataset over the period 1962–1972 with a one-year warmup period. Four objective functions were used: the Nash–Sutcliffe Efficiency (NSE), which measures the model fit primarily during high-flow periods; the Box-Cox transformed root mean squared error (TRMSE), which accounts for low-flow periods; the runoff coefficient error (ROCE), which accounts for the long-term water balance; and the slope of the flow duration curve error (SFDCE), which measures the ability of the model to match the long-term variability of flows.
+The MOEAs in this study were used to calibrate the HBV model for the Williams River, West Virginia, United States (USGS Gage 03186500). Calibration was performed using precipitation and streamflow data from the MOPEX dataset over the period 1962–1972 with a one-year warmup period. Four objective functions are optimized: the Nash–Sutcliffe Efficiency (NSE), which measures the model fit primarily during high-flow periods; the Box-Cox transformed root mean squared error (TRMSE), which accounts for low-flow periods; the runoff coefficient error (ROCE), which accounts for the long-term water balance; and the slope of the flow duration curve error (SFDCE), which measures the ability of the model to match the long-term variability of flows.
 
 Contents:
 * HBV_src/: C++ source code for the HBV model
@@ -31,7 +31,7 @@ To compile and run:
 
 * Move the executable and data file into the main directory: `mv hbv WIL.in ..`
 	
-* Compile the Java files (repeat for all Java files) (Before you compile `ExampleJobFactory.java`, you may want to read through the file and see if you want to modify any parts of the setup.)
+* Compile all of the Java files as shown below. (Before you compile `ExampleJobFactory.java`, you may want to read through the file and see if you want to modify any parts of the setup.)
 
 	`javac -classpath MOEAFramework-<VERSION>-Executable.jar:. HBVProblem.java`
 

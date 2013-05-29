@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <link href='https://fonts.googleapis.com/css?family=Chivo:900' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="stylesheets/pygment_trac.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print" />
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <title>HBV Rainfall-Runoff Model by jdherman</title>
+  </head>
+
+  <body>
+    <div id="container">
+      <div class="inner">
+
+        <header>
+          <h1>HBV Rainfall-Runoff Model</h1>
+          <h2>Multi-objective evolutionary optimization benchmark</h2>
+        </header>
+
+        <section id="downloads" class="clearfix">
+          <a href="https://github.com/jdherman/awr-hbv-benchmark/zipball/master" id="download-zip" class="button"><span>Download .zip</span></a>
+          <a href="https://github.com/jdherman/awr-hbv-benchmark/tarball/master" id="download-tar-gz" class="button"><span>Download .tar.gz</span></a>
+          <a href="https://github.com/jdherman/awr-hbv-benchmark" id="view-on-github" class="button"><span>View on GitHub</span></a>
+        </section>
+
+        <hr>
+
+        <section id="main_content">
+          <h1>
+<a name="hbv-rainfall-runoff-model" class="anchor" href="#hbv-rainfall-runoff-model"><span class="octicon octicon-link"></span></a>HBV Rainfall-Runoff Model</h1>
+
+<h2>
+<a name="multiobjective-optimization-benchmark" class="anchor" href="#multiobjective-optimization-benchmark"><span class="octicon octicon-link"></span></a>Multiobjective Optimization Benchmark</h2>
+
+<p>Copyright (C) 2011-2012 Josh Kollat, Jon Herman, Patrick Reed and others. Intended for use with <a href="http://www.moeaframework.org">MOEAFramework</a>. Licensed under the GNU Lesser General Public License.</p>
+
+<p>Citation:
+P.M. Reed, D. Hadka, J.D. Herman, J.R. Kasprzyk, J.B. Kollat, Evolutionary multiobjective optimization in water resources: The past, present, and future, Advances in Water Resources, Volume 51, January 2013, Pages 438-456, ISSN 0309-1708, 10.1016/j.advwatres.2012.01.005.
+(<a href="http://www.sciencedirect.com/science/article/pii/S0309170812000073">Link to Paper</a>)</p>
+
+<p>The HBV model is a lumped conceptual rainfall–runoff model with three primary routines:</p>
+
+<ul>
+<li>Snow accumulation and melt, represented by a variant of the degree-day snow model</li>
+<li>Soil moisture accounting, with a probability distribution to represent the spatial variability of storage elements</li>
+<li>A response routine, in which the linear outflow from two sub-basins is transformed by a routing parameter. 
+In sum, the model contains 14 real-valued decision variables that require calibration.</li>
+</ul><p>The MOEAs in this study were used to calibrate the HBV model for the Williams River, West Virginia, United States (USGS Gage 03186500). Calibration was performed using precipitation and streamflow data from the MOPEX dataset over the period 1962–1972 with a one-year warmup period. Four objective functions are optimized: the Nash–Sutcliffe Efficiency (NSE), which measures the model fit primarily during high-flow periods; the Box-Cox transformed root mean squared error (TRMSE), which accounts for low-flow periods; the runoff coefficient error (ROCE), which accounts for the long-term water balance; and the slope of the flow duration curve error (SFDCE), which measures the ability of the model to match the long-term variability of flows.</p>
+
+<p>Contents:</p>
+
+<ul>
+<li>HBV_src/: C++ source code for the HBV model</li>
+<li>params/: MOEA parameters to be sampled for each algorithm</li>
+<li>Java files: to define the HBV problem for MOEAFramework and submit PBS cluster jobs</li>
+<li>generateSampling.sh: Create the Latin Hypercube samples of algorithm parameters</li>
+<li>HBV_Reference.txt: The benchmark reference set from this study</li>
+</ul><p>To compile and run:</p>
+
+<ul>
+<li><p>Make sure you have <a href="http://www.moeaframework.org">MOEAFramework</a>. Download the "all-in-one executable" and put the .jar file in the main directory of this project.</p></li>
+<li><p>Compile the HBV Model: <code>cd HBV_src &amp;&amp; make</code></p></li>
+<li><p>Move the executable and data file into the main directory: <code>mv hbv WIL.in ..</code></p></li>
+<li>
+<p>Compile all of the Java files as shown below. (Before you compile <code>ExampleJobFactory.java</code>, you may want to read through the file and see if you want to modify any parts of the setup.)</p>
+
+<p><code>javac -classpath MOEAFramework-&lt;VERSION&gt;-Executable.jar:. HBVProblem.java</code></p>
+</li>
+<li><p>Generate MOEA parameters: <code>./generateSampling.sh</code></p></li>
+<li>
+<p>Run <code>ExampleJobFactory</code> to submit jobs to a PBS queue. If you read the file ExampleJobFactory.java, you will see which algorithms and random seeds will be submitted by default. Change these as needed.</p>
+
+<p><code>java -classpath MOEAFramework-&lt;VERSION&gt;-Executable.jar:. ExampleJobFactory -seed 0</code></p>
+
+<p>The <code>-seed</code> argument is optional. If omitted, 50 seeds will be run.</p>
+</li>
+<li>
+<p>You can perform a regular (non-PBS) run like this:</p>
+
+<pre><code>java -classpath MOEAFramework-&lt;VERSION&gt;-Executable.jar:. \
+org.moeaframework.analysis.sensitivity.Evaluator \
+--parameterFile ./path/to/file \
+--input ./path/to/LHS/file \
+--problem HBV \
+--algorithm NSGAII \
+--seed 0 \
+--output ./path/NSGAII_HBV_0.out \ 
+--full \
+-x epsilon=0.01,0.025,0.01,0.01
+</code></pre>
+</li>
+</ul><p>The HBV Benchmark Problem is free software: you can redistribute it and/or modify
+it under the terms of the GNU Lesser General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.</p>
+
+<p>The HBV Benchmark Problem is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU Lesser General Public License for more details.</p>
+
+<p>You should have received a copy of the GNU Lesser General Public License
+along with the HBV Benchmark Problem.  If not, see <a href="http://www.gnu.org/licenses/">http://www.gnu.org/licenses/</a>.</p>
+        </section>
+
+        <footer>
+          HBV Rainfall-Runoff Model is maintained by <a href="https://github.com/jdherman">jdherman</a><br>
+          This page was generated by <a href="http://pages.github.com">GitHub Pages</a>. Tactile theme by <a href="http://twitter.com/jasonlong">Jason Long</a>.
+        </footer>
+
+        
+      </div>
+    </div>
+  </body>
+</html>
